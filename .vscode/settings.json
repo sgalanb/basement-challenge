@@ -1,0 +1,8 @@
+{
+  // Formatting
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+  "css.lint.unknownAtRules": "ignore",
+  // Use workspace TS version
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true
+}

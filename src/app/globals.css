@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-basement-black: #000000;
+  --color-basement-white: #e6e6e6;
+  --color-basement-orange: #ff4d00;
+  --color-basement-grey: #666666;
+  --color-basement-light-grey: #c4c4c4;
+  --color-basement-dark-grey: #2e2e2e;
 }
 
 @theme inline {
@@ -10,17 +16,125 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  /* --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card); */
+  /* --color-border: var(--border);
+  --color-input: var(--input); */
+  --color-ring: var(--ring);
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: var(--color-basement-black);
+  --foreground: var(--color-basement-white);
+  /* --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0); */
+  --accent: var(--color-basement-orange);
+  --accent-foreground: var(--color-basement-black);
+  /* --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0); */
+  --ring: var(--color-basement-orange);
+}
+
+@utility typography-large-headline {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 2.5rem; /* 40 mobile */
+  line-height: round(0.9em, 1px);
+  letter-spacing: -0.04em;
+  @variant lg {
+    font-size: 4.75rem; /* 76 desktop */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility typography-headline {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.5rem; /* 24 mobile */
+  line-height: round(1.1em, 1px);
+  letter-spacing: -0.03em;
+  @variant lg {
+    font-size: 2.375rem; /* 38 */
+    line-height: round(0.95em, 1px);
+    letter-spacing: -0.04em;
+  }
+}
+
+@utility typography-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1.25rem; /* 20 mobile */
+  line-height: round(1.1em, 1px);
+  letter-spacing: -0.03em;
+  @variant lg {
+    font-size: 1.5rem; /* 24 */
+  }
+}
+
+@utility typography-title-emphasized {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: round(1.1em, 1px);
+  letter-spacing: -0.03em;
+}
+
+@utility typography-body {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem; /* 14 mobile */
+  line-height: round(1.3em, 1px);
+  @variant lg {
+    font-size: 1rem; /* 16 */
+  }
+}
+
+@utility typography-body-emphasized {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem; /* 14 mobile */
+  line-height: round(1.3em, 1px);
+  @variant lg {
+    font-size: 1rem; /* 16 */
+  }
+}
+
+@utility typography-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.875rem; /* 14 */
+  line-height: round(1.4em, 1px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+@utility typography-caption {
+  font-weight: 600;
+  font-size: 0.8125rem; /* 13 */
+  line-height: round(1em, 1px);
+}
+
+@layer base {
+  * {
+    @apply outline-ring/80;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }

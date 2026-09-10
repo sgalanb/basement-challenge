@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![](https://basement-challenge-six-rho.vercel.app/opengraph-image.png)
 
-## Getting Started
+# [Basement Challenge | @sgalanb](basement-challenge-six-rho.vercel.app)
 
-First, run the development server:
+# Notes (hand written, no slop)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technical Decisions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Use Oxfmt and Oxlint. Prettier and ESLint defaults with minimal setup and state of the art performance.
+- Use shadcn/ui with Base UI primitives to scaffold a customizable, accessible and scalable component library. [^1]
+- Import Geist variable fonts from the `geist` package instead of Google Font to support the full glyph set and `font-feature-settings` CSS property.
+- Use the [round() CSS function](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/round) to calculate percentage based text line heights the same way Figma does.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[^1]: Could be done with vanilla Base UI, but since this is an agency project I think adhering to shadcn patterns and conventions is the right call. Given they are pretty much industry standards by now, it makes future customization easier for the client.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Assumptions
 
-## Learn More
+- Mono text style is labeled as "GEIST MONO REGULAR" but all intances use medium weight. Used medium to preserve visual fidelity.
+- Mobile typekit has a separate section at the bottom with the same 16px font styles in different weights as the desktop version, but they are never used on the pages. Omitted in code, easy to add later.
+- Button styles have no meaningful overlap so I coded hard-coded each variant.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Quirks and features
