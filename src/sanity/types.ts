@@ -435,7 +435,7 @@ export type HOME_PAGE_QUERY_RESULT = {
 
 // Source: src/sanity/lib/queries.ts
 // Variable: BLOG_PAGE_QUERY
-// Query: *[_type == "blogPage"][0] {    metadata,    heroTitle,    listTitle,    "featuredPost": coalesce(      featuredPost-> {   _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } },      *[_type == "post" && defined(slug.current)] | order(date desc, _createdAt desc)[0] {   _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } }    )  }
+// Query: *[_type == "blogPage"][0] {    metadata,    heroTitle,    listTitle,    "featuredPost": coalesce(      featuredPost-> {     _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } },      *[_type == "post" && defined(slug.current)] | order(date desc, _createdAt desc)[0] {     _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } }    )  }
 export type BLOG_PAGE_QUERY_RESULT = {
   metadata: Metadata | null;
   heroTitle: string;
@@ -447,7 +447,17 @@ export type BLOG_PAGE_QUERY_RESULT = {
     excerpt: string;
     date: string;
     featuredImage: {
-      asset: SanityImageAssetReference | null;
+      asset: {
+        _id: string;
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          } | null;
+          lqip: string | null;
+        } | null;
+      } | null;
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
       alt: string;
@@ -471,30 +481,38 @@ export type CATEGORIES_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: POSTS_QUERY
-// Query: *[    _type == "post"    && defined(slug.current)    && _id != $exclude    && ($category == null || $category in categories[]->slug.current)  ] | order(date desc, _createdAt desc) [$offset...$end] {   _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } }
-export type POSTS_QUERY_RESULT = Array<{
-  _id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  date: string;
-  featuredImage: {
-    asset: SanityImageAssetReference | null;
-    hotspot: SanityImageHotspot | null;
-    crop: SanityImageCrop | null;
-    alt: string;
-  } | null;
-  categories: Array<{
+// Query: {  "posts": *[  _type == "post"  && defined(slug.current)  && _id != $exclude  && ($category == null || $category in categories[]->slug.current)] | order(date desc, _createdAt desc) [$start...$end] {     _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } },  "total": count(*[  _type == "post"  && defined(slug.current)  && _id != $exclude  && ($category == null || $category in categories[]->slug.current)])}
+export type POSTS_QUERY_RESULT = {
+  posts: Array<{
     _id: string;
     title: string;
     slug: string;
+    excerpt: string;
+    date: string;
+    featuredImage: {
+      asset: {
+        _id: string;
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          } | null;
+          lqip: string | null;
+        } | null;
+      } | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+    } | null;
+    categories: Array<{
+      _id: string;
+      title: string;
+      slug: string;
+    }>;
   }>;
-}>;
-
-// Source: src/sanity/lib/queries.ts
-// Variable: POSTS_COUNT_QUERY
-// Query: count(*[    _type == "post"    && defined(slug.current)    && _id != $exclude    && ($category == null || $category in categories[]->slug.current)  ])
-export type POSTS_COUNT_QUERY_RESULT = number;
+  total: number;
+};
 
 // Source: src/sanity/lib/queries.ts
 // Variable: POST_SLUGS_QUERY
@@ -505,7 +523,7 @@ export type POST_SLUGS_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0] {      _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current },    intro[] {   ...,  _type == "imageWithAlt" => {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  markDefs[] { ... } },    body[] {   ...,  _type == "imageWithAlt" => {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  markDefs[] { ... } },    authors[]-> {   _id,  name,  socialUrl,  picture {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) } },    "relatedPosts": select(      count(relatedPosts) > 0 => relatedPosts[]-> {   _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } },      *[        _type == "post"        && _id != ^._id        && defined(slug.current)        && count(categories[@._ref in ^.^.categories[]._ref]) > 0      ] | order(date desc, _createdAt desc)[0...3] {   _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   asset,  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } }    ),    "previous": *[_type == "post" && defined(slug.current) && date < ^.date] | order(date desc)[0] { title, "slug": slug.current },    "next": *[_type == "post" && defined(slug.current) && date > ^.date] | order(date asc)[0] { title, "slug": slug.current }  }
+// Query: *[_type == "post" && slug.current == $slug][0] {      _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },    intro[] {   ...,  _type == "imageWithAlt" => {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  markDefs[] { ... } },    body[] {   ...,  _type == "imageWithAlt" => {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  markDefs[] { ... } },    "authorIds": authors[]._ref,    "categoryIds": categories[]._ref  }
 export type POST_QUERY_RESULT = {
   _id: string;
   title: string;
@@ -513,16 +531,21 @@ export type POST_QUERY_RESULT = {
   excerpt: string;
   date: string;
   featuredImage: {
-    asset: SanityImageAssetReference | null;
+    asset: {
+      _id: string;
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        } | null;
+        lqip: string | null;
+      } | null;
+    } | null;
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
     alt: string;
   } | null;
-  categories: Array<{
-    _id: string;
-    title: string;
-    slug: string;
-  }>;
   intro: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -574,7 +597,17 @@ export type POST_QUERY_RESULT = {
     | {
         _key: string;
         _type: "imageWithAlt";
-        asset: SanityImageAssetReference | null;
+        asset: {
+          _id: string;
+          url: string;
+          metadata: {
+            dimensions: {
+              width: number;
+              height: number;
+            } | null;
+            lqip: string | null;
+          } | null;
+        } | null;
         media?: unknown;
         hotspot: SanityImageHotspot | null;
         crop: SanityImageCrop | null;
@@ -590,25 +623,50 @@ export type POST_QUERY_RESULT = {
         markDefs: null;
       }
   >;
-  authors: Array<{
-    _id: string;
-    name: string;
-    socialUrl: string;
-    picture: {
-      asset: SanityImageAssetReference | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
-      alt: string;
-    };
-  }>;
-  relatedPosts: Array<{
+  authorIds: Array<string>;
+  categoryIds: Array<string>;
+} | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: POST_GRAPH_QUERY
+// Query: *[_type == "post" && _id == $id][0] {    "related": select(      count(relatedPosts) > 0 => relatedPosts[]-> { "slug": slug.current, "categoryIds": categories[]._ref },      *[        _type == "post"        && _id != ^._id        && defined(slug.current)        && count(categories[@._ref in ^.^.categories[]._ref]) > 0      ] | order(date desc, _createdAt desc)[0...3] { "slug": slug.current, "categoryIds": categories[]._ref }    ),    "previous": *[_type == "post" && defined(slug.current) && date < ^.date] | order(date desc)[0] { "slug": slug.current, "categoryIds": categories[]._ref },    "next": *[_type == "post" && defined(slug.current) && date > ^.date] | order(date asc)[0] { "slug": slug.current, "categoryIds": categories[]._ref }  }
+export type POST_GRAPH_QUERY_RESULT = {
+  related: Array<{
+    slug: string;
+    categoryIds: Array<string>;
+  }> | null;
+  previous: {
+    slug: string;
+    categoryIds: Array<string>;
+  } | null;
+  next: {
+    slug: string;
+    categoryIds: Array<string>;
+  } | null;
+} | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: POST_REFS_QUERY
+// Query: {  "posts": *[_type == "post" && slug.current in $slugs] {     _id,  title,  "slug": slug.current,  excerpt,  date,  featuredImage {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) },  categories[]-> { _id, title, "slug": slug.current } },  "authors": *[_type == "author" && _id in $authorIds] {   _id,  name,  socialUrl,  picture {   "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },  hotspot,  crop,  "alt": coalesce(alt, asset->altText) } },  "categories": *[_type == "category" && _id in $categoryIds] { _id, title, "slug": slug.current }}
+export type POST_REFS_QUERY_RESULT = {
+  posts: Array<{
     _id: string;
     title: string;
     slug: string;
     excerpt: string;
     date: string;
     featuredImage: {
-      asset: SanityImageAssetReference | null;
+      asset: {
+        _id: string;
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          } | null;
+          lqip: string | null;
+        } | null;
+      } | null;
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
       alt: string;
@@ -618,28 +676,47 @@ export type POST_QUERY_RESULT = {
       title: string;
       slug: string;
     }>;
-  }> | null;
-  previous: {
+  }>;
+  authors: Array<{
+    _id: string;
+    name: string;
+    socialUrl: string;
+    picture: {
+      asset: {
+        _id: string;
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          } | null;
+          lqip: string | null;
+        } | null;
+      } | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      alt: string;
+    };
+  }>;
+  categories: Array<{
+    _id: string;
     title: string;
     slug: string;
-  } | null;
-  next: {
-    title: string;
-    slug: string;
-  } | null;
-} | null;
+  }>;
+};
 
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '\n  *[_type == "layout"][0] {\n    navLinks[] { _key, label, href, openInNewTab },\n    navCtas[] { _key, label, href, openInNewTab, variant },\n    footerColumns[] { _key, title, links[] { _key, label, href, openInNewTab } },\n    copyrightText\n  }\n': LAYOUT_QUERY_RESULT;
     '\n  *[_type == "homePage"][0] { metadata }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type == "blogPage"][0] {\n    metadata,\n    heroTitle,\n    listTitle,\n    "featuredPost": coalesce(\n      featuredPost-> { \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  categories[]-> { _id, title, "slug": slug.current }\n },\n      *[_type == "post" && defined(slug.current)] | order(date desc, _createdAt desc)[0] { \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  categories[]-> { _id, title, "slug": slug.current }\n }\n    )\n  }\n': BLOG_PAGE_QUERY_RESULT;
+    '\n  *[_type == "blogPage"][0] {\n    metadata,\n    heroTitle,\n    listTitle,\n    "featuredPost": coalesce(\n      featuredPost-> { \n  \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n }\n,\n  categories[]-> { _id, title, "slug": slug.current }\n },\n      *[_type == "post" && defined(slug.current)] | order(date desc, _createdAt desc)[0] { \n  \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n }\n,\n  categories[]-> { _id, title, "slug": slug.current }\n }\n    )\n  }\n': BLOG_PAGE_QUERY_RESULT;
     '\n  *[_type == "category" && defined(slug.current)] | order(title asc) { _id, title, "slug": slug.current }\n': CATEGORIES_QUERY_RESULT;
-    '\n  *[\n    _type == "post"\n    && defined(slug.current)\n    && _id != $exclude\n    && ($category == null || $category in categories[]->slug.current)\n  ] | order(date desc, _createdAt desc) [$offset...$end] { \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  categories[]-> { _id, title, "slug": slug.current }\n }\n': POSTS_QUERY_RESULT;
-    '\n  count(*[\n    _type == "post"\n    && defined(slug.current)\n    && _id != $exclude\n    && ($category == null || $category in categories[]->slug.current)\n  ])\n': POSTS_COUNT_QUERY_RESULT;
+    '{\n  "posts": *[\n  _type == "post"\n  && defined(slug.current)\n  && _id != $exclude\n  && ($category == null || $category in categories[]->slug.current)\n] | order(date desc, _createdAt desc) [$start...$end] { \n  \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n }\n,\n  categories[]-> { _id, title, "slug": slug.current }\n },\n  "total": count(*[\n  _type == "post"\n  && defined(slug.current)\n  && _id != $exclude\n  && ($category == null || $category in categories[]->slug.current)\n])\n}': POSTS_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)] { "slug": slug.current }\n': POST_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "post" && slug.current == $slug][0] {\n    \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  categories[]-> { _id, title, "slug": slug.current }\n,\n    intro[] { \n  ...,\n  _type == "imageWithAlt" => { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  markDefs[] { ... }\n },\n    body[] { \n  ...,\n  _type == "imageWithAlt" => { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  markDefs[] { ... }\n },\n    authors[]-> { \n  _id,\n  name,\n  socialUrl,\n  picture { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n }\n },\n    "relatedPosts": select(\n      count(relatedPosts) > 0 => relatedPosts[]-> { \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  categories[]-> { _id, title, "slug": slug.current }\n },\n      *[\n        _type == "post"\n        && _id != ^._id\n        && defined(slug.current)\n        && count(categories[@._ref in ^.^.categories[]._ref]) > 0\n      ] | order(date desc, _createdAt desc)[0...3] { \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  asset,\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  categories[]-> { _id, title, "slug": slug.current }\n }\n    ),\n    "previous": *[_type == "post" && defined(slug.current) && date < ^.date] | order(date desc)[0] { title, "slug": slug.current },\n    "next": *[_type == "post" && defined(slug.current) && date > ^.date] | order(date asc)[0] { title, "slug": slug.current }\n  }\n': POST_QUERY_RESULT;
+    '\n  *[_type == "post" && slug.current == $slug][0] {\n    \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n }\n,\n    intro[] { \n  ...,\n  _type == "imageWithAlt" => { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  markDefs[] { ... }\n },\n    body[] { \n  ...,\n  _type == "imageWithAlt" => { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n },\n  markDefs[] { ... }\n },\n    "authorIds": authors[]._ref,\n    "categoryIds": categories[]._ref\n  }\n': POST_QUERY_RESULT;
+    '\n  *[_type == "post" && _id == $id][0] {\n    "related": select(\n      count(relatedPosts) > 0 => relatedPosts[]-> { "slug": slug.current, "categoryIds": categories[]._ref },\n      *[\n        _type == "post"\n        && _id != ^._id\n        && defined(slug.current)\n        && count(categories[@._ref in ^.^.categories[]._ref]) > 0\n      ] | order(date desc, _createdAt desc)[0...3] { "slug": slug.current, "categoryIds": categories[]._ref }\n    ),\n    "previous": *[_type == "post" && defined(slug.current) && date < ^.date] | order(date desc)[0] { "slug": slug.current, "categoryIds": categories[]._ref },\n    "next": *[_type == "post" && defined(slug.current) && date > ^.date] | order(date asc)[0] { "slug": slug.current, "categoryIds": categories[]._ref }\n  }\n': POST_GRAPH_QUERY_RESULT;
+    '{\n  "posts": *[_type == "post" && slug.current in $slugs] { \n  \n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  date,\n  featuredImage { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n }\n,\n  categories[]-> { _id, title, "slug": slug.current }\n },\n  "authors": *[_type == "author" && _id in $authorIds] { \n  _id,\n  name,\n  socialUrl,\n  picture { \n  "asset": asset->{ _id, url, metadata { dimensions { width, height }, lqip } },\n  hotspot,\n  crop,\n  "alt": coalesce(alt, asset->altText)\n }\n },\n  "categories": *[_type == "category" && _id in $categoryIds] { _id, title, "slug": slug.current }\n}': POST_REFS_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

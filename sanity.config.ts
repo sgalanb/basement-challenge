@@ -10,7 +10,7 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
-import { apiVersion, dataset, projectId } from "./src/sanity/env";
+import { SANITY_API_VERSION, SANITY_DATASET, SANITY_PROJECT_ID } from "./src/sanity/env";
 import { resolve } from "./src/sanity/presentation/resolve";
 import { schema, singletonTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
@@ -19,8 +19,8 @@ const singletonActions = new Set(["publish", "discardChanges", "restore"]);
 
 export default defineConfig({
   basePath: "/cms",
-  projectId,
-  dataset,
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_DATASET,
   schema: {
     ...schema,
     // Hide singletons from the "new document" menu
@@ -35,7 +35,7 @@ export default defineConfig({
     codeInput(),
     // GROQ playground, only available in local development
     ...(process.env.NODE_ENV === "development"
-      ? [visionTool({ defaultApiVersion: apiVersion })]
+      ? [visionTool({ defaultApiVersion: SANITY_API_VERSION })]
       : []),
   ],
   document: {

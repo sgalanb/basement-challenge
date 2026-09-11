@@ -1,12 +1,12 @@
 import { defineLive } from "next-sanity/live";
 
-import { client } from "./client";
+import { SANITY_API_READ_TOKEN } from "@/sanity/env.server";
 
-// Required for draft previews in the Studio
-const token = process.env.SANITY_API_READ_TOKEN;
+import { client } from "./client";
 
 export const { sanityFetch, SanityLive } = defineLive({
   client,
-  serverToken: token,
-  browserToken: token,
+  // Required for draft previews in the Studio
+  serverToken: SANITY_API_READ_TOKEN,
+  browserToken: SANITY_API_READ_TOKEN,
 });

@@ -16,6 +16,9 @@
 - Use the [round() CSS function](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/round) to calculate percentage based text line heights the same way Figma does.
 - Don't let the client change the logo on the navigation bar and footer. It's not really content but more of a site design thing, which is handled with code.
 - Don't let the client edit posts metadata. Title, description and OG image properties are generated automatically using post content.
+- Don't enable Next.js Cache Components. For this project, where everything can be statically generated and revalidated, using Cache Components would not represent any meaningful improvement while [requiring more config and boilerplate code per page](https://www.sanity.io/docs/nextjs/cache-components).
+- Use `next-sanity/image` to load images that come from Sanity. It wraps `next/image` and uses a custom loader that prevents re-optimizing the image while maintaining all its niceties.
+- Revalidate tags with `profile="max"`. A marketing site can afford to serve stale state for a couple seconds while the revalidation runs. The alternative would be blocking the request until the revalidation is done, not worth it in my opinion.
 
 [^1]: Could be done with vanilla Base UI, but since this is an agency project I think adhering to shadcn patterns and conventions is the right call. Given they are pretty much industry standards by now, it makes future customization easier for the client.
 
@@ -29,3 +32,5 @@
 - Each post has an intro field that is only used on the full post page positioned after the excerpt but before the post date + authors section.
 
 ## Quirks and features
+
+- Granular cache tags that invalidate the smallest possible amount of cached data while accurately reflecting content changes across the entire site.
