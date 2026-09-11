@@ -1,0 +1,42 @@
+"use client";
+
+/**
+ * This configuration is used to for the Sanity Studio that’s mounted on the `/app/cms/[[...tool]]/page.tsx` route
+ */
+
+import { codeInput } from "@sanity/code-input";
+import { visionTool } from "@sanity/vision";
+import { defineConfig } from "sanity";
+import { structureTool } from "sanity/structure";
+
+import { apiVersion, dataset, projectId } from "./src/sanity/env";
+import { schema, singletonTypes } from "./src/sanity/schemaTypes";
+import { structure } from "./src/sanity/structure";
+
+const singletonActions = new Set(["publish", "discardChanges", "restore"]);
+
+export default defineConfig({
+  basePath: "/cms",
+  projectId,
+  dataset,
+  schema: {
+    ...schema,
+    // Hide singletons from the "new document" menu
+    templates: (templates) => templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
+  },
+  plugins: [
+    structureTool({ structure }),
+    codeInput(),
+    // GROQ playground, only available in local development
+    ...(process.env.NODE_ENV === "development"
+      ? [visionTool({ defaultApiVersion: apiVersion })]
+      : []),
+  ],
+  document: {
+    // Singletons can't be deleted, duplicated or unpublished
+    actions: (prev, { schemaType }) =>
+      singletonTypes.has(schemaType)
+        ? prev.filter(({ action }) => action && singletonActions.has(action))
+        : prev,
+  },
+});
