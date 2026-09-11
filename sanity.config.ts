@@ -7,9 +7,11 @@
 import { codeInput } from "@sanity/code-input";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
+import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
+import { resolve } from "./src/sanity/presentation/resolve";
 import { schema, singletonTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 
@@ -26,6 +28,10 @@ export default defineConfig({
   },
   plugins: [
     structureTool({ structure }),
+    presentationTool({
+      previewUrl: { previewMode: { enable: "/api/draft-mode/enable" } },
+      resolve,
+    }),
     codeInput(),
     // GROQ playground, only available in local development
     ...(process.env.NODE_ENV === "development"

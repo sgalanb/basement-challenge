@@ -169,6 +169,12 @@ importers:
       '@base-ui/react':
         specifier: ^1.8.0
         version: 1.8.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(date-fns@4.4.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@portabletext/react':
+        specifier: ^8.0.1
+        version: 8.0.1(react@19.2.8)
+      '@sanity/client':
+        specifier: ^8.6.1
+        version: 8.6.1
       '@sanity/code-input':
         specifier: ^7.3.8
         version: 7.3.8(87e5dbd52ca619e20b9758bb7c97c9dc)

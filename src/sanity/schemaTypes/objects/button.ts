@@ -41,7 +41,7 @@ export const button = defineType({
       title: "Variant",
       type: "string",
       options: { list: [...buttonVariants], layout: "radio", direction: "horizontal" },
-      initialValue: "primary",
+      initialValue: "dark",
       validation: (rule) => rule.required(),
     }),
   ],

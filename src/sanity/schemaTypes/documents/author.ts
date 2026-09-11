@@ -25,6 +25,6 @@ export const author = defineType({
     }),
   ],
   preview: {
-    select: { title: "name", subtitle: "jobTitle", media: "picture" },
+    select: { title: "name", media: "picture" },
   },
 });

@@ -7,4 +7,6 @@ export const client = createClient({
   dataset,
   apiVersion,
   useCdn: false, // We use ISR
+  perspective: "published",
+  stega: { studioUrl: "/cms" },
 });
