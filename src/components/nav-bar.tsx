@@ -153,7 +153,7 @@ export default function NavBar({ links, ctas }: { links: NavLinkData[]; ctas: Na
 }
 
 const GLASS = cn(
-  "relative isolate rounded-xl backdrop-blur-md shadow-glass-dark",
+  "glass-dark relative isolate rounded-xl backdrop-blur-md",
   "bg-[linear-gradient(90deg,rgba(153,153,153,0.25)_0%,rgba(74,74,74,0.25)_100%)]",
   "before:bg-noise before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:opacity-10 before:content-['']",
 );
