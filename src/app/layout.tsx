@@ -5,6 +5,7 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 
 import "./globals.css";
+import { ConsoleBanner } from "@/components/console-banner";
 import { JsonLd } from "@/components/json-ld";
 import { SanityLive } from "@/modules/sanity/lib/live";
 import { ORGANIZATION_ID, SAME_AS, SITE } from "@/modules/site";
@@ -103,6 +104,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <JsonLd data={organizationJsonLd} />
+        <ConsoleBanner />
         {children}
         <SanityLive />
         {isDraftMode && <VisualEditing />}
