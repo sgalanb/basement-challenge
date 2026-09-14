@@ -186,5 +186,23 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
     }
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+}
+
+::view-transition-group(.morph) {
+  animation-duration: var(--transition-duration-fast);
+  animation-timing-function: linear;
+}
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+@keyframes via-blur {
+  30% {
+    filter: blur(3px);
   }
 }

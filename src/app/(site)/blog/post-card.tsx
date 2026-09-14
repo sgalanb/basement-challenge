@@ -1,11 +1,14 @@
 import { cn } from "cn";
 import { Image } from "next-sanity/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { urlFor } from "@/modules/sanity/lib/image";
 import type { POSTS_QUERY_RESULT } from "@/modules/sanity/types";
 import { formatDate } from "@/modules/utils";
+
+import { postTitleTransition } from "./config";
 
 export type PostCardData = POSTS_QUERY_RESULT["posts"][number];
 export type PostCardVariant = "light" | "dark";
@@ -41,11 +44,16 @@ const cardBase = "flex h-full w-full flex-col items-start gap-4 rounded-2xl p-4 
 export function PostCard({
   post,
   variant = "light",
+  titleTransition = true,
 }: {
   post: PostCardData;
   variant?: PostCardVariant;
+  /** Set to false on a copy that is swapped out for the real card, so the two never pair up */
+  titleTransition?: boolean;
 }) {
   const s = styles[variant];
+
+  const title = <h3 className="typography-title-emphasized text-balance">{post.title}</h3>;
 
   return (
     <article className="h-full">
@@ -68,7 +76,13 @@ export function PostCard({
             {formatDate(post.date)}
           </time>
 
-          <h3 className="typography-title-emphasized text-balance">{post.title}</h3>
+          {titleTransition ? (
+            <ViewTransition name={postTitleTransition(post._id)} share="morph" default="none">
+              {title}
+            </ViewTransition>
+          ) : (
+            title
+          )}
 
           {post.categories && (
             <ul className="flex flex-wrap gap-1">

@@ -119,6 +119,9 @@ export function PostsGridFallback({
       list={initial}
       isPending={false}
       variant={variant}
+      // The interactive grid replaces this twin after hydration. Same names on both would
+      // make React morph each title into its identical twin on every page load.
+      titleTransition={false}
       onSelect={noop}
       onLoadMore={noop}
     />
@@ -133,6 +136,7 @@ function PostsGridView({
   list,
   isPending,
   variant,
+  titleTransition,
   gridRef,
   onSelect,
   onLoadMore,
@@ -142,6 +146,7 @@ function PostsGridView({
   list: POSTS_QUERY_RESULT | undefined;
   isPending: boolean;
   variant: PostCardVariant;
+  titleTransition?: boolean;
   gridRef?: Ref<HTMLUListElement>;
   onSelect: (slug: string | null) => void;
   onLoadMore: () => void;
@@ -186,7 +191,7 @@ function PostsGridView({
         <ul ref={gridRef} className="grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-8">
           {list?.posts.map((post) => (
             <li key={post._id}>
-              <PostCard post={post} variant={variant} />
+              <PostCard post={post} variant={variant} titleTransition={titleTransition} />
             </li>
           ))}
           {Array.from({ length: skeletonCount }, (_, i) => (

@@ -38,8 +38,9 @@
 - Granular cache tags that invalidate the smallest possible amount of cached data while accurately reflecting content changes across the entire site.
 - Images load almost instantly with a LQIP (Low-Quality Image Placeholder) provided by Sanity while the full image is loading.
 - The category filters and "LOAD MORE" button are functional. Selected category is stored as a search param in the URL.
+- Subtle view transition between post card and post page.
 - Sanity visual editing implemented with proper documents and locations mapping.
 - Every blog post has a dynamic OpenGraph image, statically generated at build time and regenerated on-demand when the post changes.
 - Sitemap is statically generated at build time and regenerated on-demand when posts are published, updated or deleted.
-- Lighthouse scores vary from 96% to 100% between tries. The only exception is SEO score which is low because the site blocks search engines indexing (on purpose).
+- Lighthouse scores vary from 96% to 100% between runs. The only exception is SEO score which is low because the site blocks search engines indexing (on purpose).
 - 82% [Is Agentic](https://is-agentic.com/scan/basement-challenge-six-rho.vercel.app/blog) score. Not 100% because of rules not applicable to the challenge (eg: privacy/about/content pages, real robots.txt file that let agents in, etc.)

@@ -1,10 +1,13 @@
 import { Image } from "next-sanity/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { urlFor } from "@/modules/sanity/lib/image";
 import type { BLOG_PAGE_QUERY_RESULT } from "@/modules/sanity/types";
 import { formatDate } from "@/modules/utils";
+
+import { postTitleTransition } from "./config";
 
 type FeaturedPost = NonNullable<NonNullable<BLOG_PAGE_QUERY_RESULT>["featuredPost"]>;
 
@@ -34,7 +37,9 @@ export function FeaturedPost({ post }: { post: FeaturedPost }) {
             {formatDate(post.date)}
           </time>
 
-          <h2 className="typography-headline text-balance">{post.title}</h2>
+          <ViewTransition name={postTitleTransition(post._id)} share="morph" default="none">
+            <h2 className="typography-headline text-balance">{post.title}</h2>
+          </ViewTransition>
 
           {post.categories && (
             <ul className="flex flex-wrap gap-1">

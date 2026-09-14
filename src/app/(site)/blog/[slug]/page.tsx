@@ -4,7 +4,9 @@ import { stegaClean } from "next-sanity";
 import { Image } from "next-sanity/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 
+import { postTitleTransition } from "@/app/(site)/blog/config";
 import { PostCard, type PostCardData } from "@/app/(site)/blog/post-card";
 import { CornerMarks } from "@/components/corner-marks";
 import { JsonLd } from "@/components/json-ld";
@@ -109,9 +111,11 @@ export default async function PostPage({ params }: Props) {
 
           <header className="flex flex-col gap-12 pt-6 lg:gap-15 lg:pt-15">
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8">
-              <h1 className="typography-large-headline lg:typography-headline text-balance">
-                {post.title}
-              </h1>
+              <ViewTransition name={postTitleTransition(post._id)} share="morph" default="none">
+                <h1 className="typography-large-headline lg:typography-headline text-balance">
+                  {post.title}
+                </h1>
+              </ViewTransition>
 
               <div className="flex flex-col gap-12 lg:gap-36">
                 <div className="flex flex-col gap-2 lg:gap-6">
