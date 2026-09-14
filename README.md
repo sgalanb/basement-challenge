@@ -41,3 +41,5 @@
 - Sanity visual editing implemented with proper documents and locations mapping.
 - Every blog post has a dynamic OpenGraph image, statically generated at build time and regenerated on-demand when the post changes.
 - Sitemap is statically generated at build time and regenerated on-demand when posts are published, updated or deleted.
+- Lighthouse scores vary from 96% to 100% between tries. The only exception is SEO score which is low because the site blocks search engines indexing (on purpose).
+- 82% [Is Agentic](https://is-agentic.com/scan/basement-challenge-six-rho.vercel.app/blog) score. Not 100% because of rules not applicable to the challenge (eg: privacy/about/content pages, real robots.txt file that let agents in, etc.)
