@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 
 import { PostCard, type PostCardData } from "@/app/(site)/blog/post-card";
 import { CornerMarks } from "@/components/corner-marks";
+import { JsonLd } from "@/components/json-ld";
 import { NewTabHint } from "@/components/new-tab-hint";
 import { PortableText } from "@/components/portable-text";
 import { buttonVariants } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import { urlFor } from "@/modules/sanity/lib/image";
 import { sanityFetch } from "@/modules/sanity/lib/live";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/modules/sanity/lib/queries";
 import { postTag } from "@/modules/sanity/lib/tags";
+import { ORGANIZATION_ID, SITE, absoluteUrl } from "@/modules/site";
 import { formatDate } from "@/modules/utils";
 
 import { getPost } from "./get-post";
@@ -45,7 +47,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!post) return {};
 
-  return { title: `${post.title} | Blog`, description: post.excerpt };
+  return {
+    title: `${post.title} | Blog`,
+    description: post.excerpt,
+    alternates: {
+      canonical: `/blog/${slug}`,
+      types: { "text/markdown": `/blog/${slug}.md` },
+    },
+  };
 }
 
 export default async function PostPage({ params }: Props) {
@@ -54,12 +63,38 @@ export default async function PostPage({ params }: Props) {
 
   if (!post) notFound();
 
+  const url = absoluteUrl(`/blog/${slug}`);
+  const postJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    headline: stegaClean(post.title),
+    description: stegaClean(post.excerpt),
+    url,
+    image: post.featuredImage?.asset
+      ? urlFor(post.featuredImage).width(1200).height(630).url()
+      : SITE.logo,
+    datePublished: post.date,
+    dateModified: post._updatedAt,
+    inLanguage: "en",
+    keywords: post.categories.map((category) => stegaClean(category.title)),
+    author: post.authors.map((author) => ({
+      "@type": "Person",
+      name: stegaClean(author.name),
+      url: stegaClean(author.socialUrl),
+    })),
+    publisher: { "@id": ORGANIZATION_ID },
+    isPartOf: { "@id": absoluteUrl("/blog#blog") },
+  };
+
   return (
     <main
       id="main"
       tabIndex={-1}
       className="scroll-mt-20 overflow-x-clip px-3 pt-6 outline-none lg:scroll-mt-28.5 lg:px-6 lg:pt-9"
     >
+      <JsonLd data={postJsonLd} />
       <article>
         <div className="mx-auto flex w-full max-w-343 flex-col">
           <div className="border-basement-grey border-b">

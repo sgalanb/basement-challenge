@@ -101,6 +101,11 @@ export const POST_SLUGS_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current)] { "slug": slug.current }
 `);
 
+/** Every published post, newest first, with the fields the markdown index and llms.txt list. */
+export const POSTS_INDEX_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current)] | order(date desc, _createdAt desc) { ${postCardFields} }
+`);
+
 /** Every published post URL and when it last changed */
 export const POST_SITEMAP_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current)] | order(date desc) { "slug": slug.current, _updatedAt }
@@ -115,6 +120,7 @@ export const POST_SITEMAP_QUERY = defineQuery(`
 export const POST_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
     ${postFields},
+    _updatedAt,
     intro[] { ${portableTextFields} },
     body[] { ${portableTextFields} },
     "authorIds": authors[]._ref,

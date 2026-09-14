@@ -21,6 +21,7 @@ export function FeaturedPost({ post }: { post: FeaturedPost }) {
             alt={post.featuredImage.alt}
             width={1500}
             height={1000}
+            sizes="(min-width: 1024px) 30rem, 100vw"
             placeholder={post.featuredImage.asset.metadata?.lqip ? "blur" : "empty"}
             blurDataURL={post.featuredImage.asset.metadata?.lqip ?? undefined}
             preload

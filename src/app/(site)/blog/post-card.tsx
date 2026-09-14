@@ -56,6 +56,7 @@ export function PostCard({
             alt={post.featuredImage.alt}
             width={1500}
             height={500}
+            sizes="(min-width: 1024px) 33vw, 100vw"
             placeholder={post.featuredImage.asset.metadata?.lqip ? "blur" : "empty"}
             blurDataURL={post.featuredImage.asset.metadata?.lqip ?? undefined}
             className="aspect-3/1 w-full shrink-0 rounded-md object-cover"

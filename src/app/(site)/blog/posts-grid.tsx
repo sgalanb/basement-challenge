@@ -2,7 +2,7 @@
 
 import { stegaClean } from "next-sanity";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { type ReactNode, useEffect, useRef, useState, useTransition } from "react";
+import { type ReactNode, type Ref, useEffect, useRef, useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import type { CATEGORIES_QUERY_RESULT, POSTS_QUERY_RESULT } from "@/modules/sanity/types";
@@ -87,6 +87,66 @@ export function PostsGrid({
     });
   }
 
+  return (
+    <PostsGridView
+      categories={categories}
+      selected={selected}
+      list={list}
+      isPending={isPending}
+      variant={variant}
+      gridRef={gridRef}
+      onSelect={select}
+      onLoadMore={loadMore}
+    />
+  );
+}
+
+// Without this the first page of posts would be missing
+// from the HTML that crawlers and agents read.
+export function PostsGridFallback({
+  initial,
+  categories,
+  variant = "light",
+}: {
+  initial: POSTS_QUERY_RESULT;
+  categories: CATEGORIES_QUERY_RESULT;
+  variant?: PostCardVariant;
+}) {
+  return (
+    <PostsGridView
+      categories={categories}
+      selected={null}
+      list={initial}
+      isPending={false}
+      variant={variant}
+      onSelect={noop}
+      onLoadMore={noop}
+    />
+  );
+}
+
+function noop() {}
+
+function PostsGridView({
+  categories,
+  selected,
+  list,
+  isPending,
+  variant,
+  gridRef,
+  onSelect,
+  onLoadMore,
+}: {
+  categories: CATEGORIES_QUERY_RESULT;
+  selected: string | null;
+  list: POSTS_QUERY_RESULT | undefined;
+  isPending: boolean;
+  variant: PostCardVariant;
+  gridRef?: Ref<HTMLUListElement>;
+  onSelect: (slug: string | null) => void;
+  onLoadMore: () => void;
+}) {
+  const count = list?.posts.length ?? 0;
   const hasMore = list ? list.posts.length < list.total : false;
   const status = !list || isPending ? "Loading posts" : `Showing ${count} of ${list.total} posts`;
   const skeletonCount = !list
@@ -103,7 +163,7 @@ export function PostsGrid({
       >
         <ul className="flex w-max">
           <li>
-            <FilterButton active={selected === null} onClick={() => select(null)}>
+            <FilterButton active={selected === null} onClick={() => onSelect(null)}>
               All posts
             </FilterButton>
           </li>
@@ -111,7 +171,7 @@ export function PostsGrid({
             const slug = stegaClean(category.slug);
             return (
               <li key={category._id}>
-                <FilterButton active={selected === slug} onClick={() => select(slug)}>
+                <FilterButton active={selected === slug} onClick={() => onSelect(slug)}>
                   {category.title}
                 </FilterButton>
               </li>
@@ -143,7 +203,7 @@ export function PostsGrid({
           variant={variant === "light" ? "primaryDark" : "primaryLight"}
           disabled={isPending}
           focusableWhenDisabled
-          onClick={loadMore}
+          onClick={onLoadMore}
           className="mx-auto mt-6 lg:mt-12"
         >
           {isPending ? "Loading…" : "Load more"}
