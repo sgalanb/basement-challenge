@@ -1,9 +1,9 @@
 import { stegaClean } from "next-sanity";
 
+import { sanityFetch } from "@/modules/sanity/lib/live";
+import { POST_GRAPH_QUERY, POST_QUERY, POST_REFS_QUERY } from "@/modules/sanity/lib/queries";
+import { POST_GRAPH_TAG, authorTag, categoryTag, postTag } from "@/modules/sanity/lib/tags";
 import { unique } from "@/modules/utils";
-import { sanityFetch } from "@/sanity/lib/live";
-import { POST_GRAPH_QUERY, POST_QUERY, POST_REFS_QUERY } from "@/sanity/lib/queries";
-import { POST_GRAPH_TAG, authorTag, categoryTag, postTag } from "@/sanity/lib/tags";
 
 /**
  * Loads everything a post page renders in three sequential fetches, each tagged with exactly the

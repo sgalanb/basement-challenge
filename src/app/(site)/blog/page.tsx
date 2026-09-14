@@ -4,9 +4,9 @@ import { Suspense } from "react";
 import { FeaturedPost } from "@/app/(site)/blog/featured-post";
 import { PostsGrid } from "@/app/(site)/blog/posts-grid";
 import { HeroGlow } from "@/components/hero-glow";
-import { sanityFetch } from "@/sanity/lib/live";
-import { BLOG_PAGE_QUERY, CATEGORIES_QUERY, POSTS_QUERY } from "@/sanity/lib/queries";
-import { POST_CARD_TAGS, TAGS } from "@/sanity/lib/tags";
+import { sanityFetch } from "@/modules/sanity/lib/live";
+import { BLOG_PAGE_QUERY, CATEGORIES_QUERY, POSTS_QUERY } from "@/modules/sanity/lib/queries";
+import { POST_CARD_TAGS, TAGS } from "@/modules/sanity/lib/tags";
 
 import { POSTS_PAGE_SIZE } from "./config";
 

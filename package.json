@@ -10,7 +10,7 @@
     "format:check": "oxfmt --check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "sanity:typegen": "sanity schema extract --force --enforce-required-fields --path src/sanity/schema.json && sanity typegen generate",
+    "sanity:typegen": "sanity schema extract --force --enforce-required-fields --path src/modules/sanity/schema.json && sanity typegen generate",
     "typecheck": "pnpm sanity:typegen && next typegen && tsc --noEmit",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck"
   },

@@ -10,11 +10,11 @@ import { CornerMarks } from "@/components/corner-marks";
 import { NewTabHint } from "@/components/new-tab-hint";
 import { PortableText } from "@/components/portable-text";
 import { buttonVariants } from "@/components/ui/button";
+import { urlFor } from "@/modules/sanity/lib/image";
+import { sanityFetch } from "@/modules/sanity/lib/live";
+import { POST_QUERY, POST_SLUGS_QUERY } from "@/modules/sanity/lib/queries";
+import { postTag } from "@/modules/sanity/lib/tags";
 import { formatDate } from "@/modules/utils";
-import { urlFor } from "@/sanity/lib/image";
-import { sanityFetch } from "@/sanity/lib/live";
-import { POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
-import { postTag } from "@/sanity/lib/tags";
 
 import { getPost } from "./get-post";
 import { ScrollRow } from "./scroll-row";

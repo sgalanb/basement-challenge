@@ -1,4 +1,4 @@
-import type { Quote } from "@/sanity/types";
+import type { Quote } from "@/modules/sanity/types";
 
 export function QuoteBlock({ value }: { value: Quote }) {
   const attribution = [value.attributionName, value.attributionRole].filter(Boolean);

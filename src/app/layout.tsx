@@ -5,7 +5,7 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 
 import "./globals.css";
-import { SanityLive } from "@/sanity/lib/live";
+import { SanityLive } from "@/modules/sanity/lib/live";
 
 const TITLE = "basement.studio | We make cool shit that performs.";
 const DESCRIPTION =

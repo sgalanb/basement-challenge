@@ -3,9 +3,9 @@ import { Image } from "next-sanity/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
+import { urlFor } from "@/modules/sanity/lib/image";
+import type { POSTS_QUERY_RESULT } from "@/modules/sanity/types";
 import { formatDate } from "@/modules/utils";
-import { urlFor } from "@/sanity/lib/image";
-import type { POSTS_QUERY_RESULT } from "@/sanity/types";
 
 export type PostCardData = POSTS_QUERY_RESULT["posts"][number];
 export type PostCardVariant = "light" | "dark";

@@ -2,7 +2,14 @@ import { parseBody } from "next-sanity/webhook";
 import { revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { POST_GRAPH_TAG, TAGS, authorTag, categoryTag, isTag, postTag } from "@/sanity/lib/tags";
+import {
+  POST_GRAPH_TAG,
+  TAGS,
+  authorTag,
+  categoryTag,
+  isTag,
+  postTag,
+} from "@/modules/sanity/lib/tags";
 
 type WebhookBody = {
   _type: string;

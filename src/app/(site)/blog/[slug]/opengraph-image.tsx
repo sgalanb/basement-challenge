@@ -5,9 +5,9 @@ import { stegaClean } from "next-sanity";
 import { ImageResponse } from "next/og";
 
 import { getPost } from "@/app/(site)/blog/[slug]/get-post";
+import { sanityFetch } from "@/modules/sanity/lib/live";
+import { POST_SLUGS_QUERY } from "@/modules/sanity/lib/queries";
 import { formatDate } from "@/modules/utils";
-import { sanityFetch } from "@/sanity/lib/live";
-import { POST_SLUGS_QUERY } from "@/sanity/lib/queries";
 
 export const contentType = "image/png";
 export const size = {

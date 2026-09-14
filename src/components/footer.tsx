@@ -4,8 +4,8 @@ import Link from "next/link";
 import { FooterWordmark } from "@/components/footer-wordmark";
 import { NewTabHint } from "@/components/new-tab-hint";
 import { SodaLogo } from "@/components/soda-logo";
+import type { LAYOUT_QUERY_RESULT } from "@/modules/sanity/types";
 import { isExternal } from "@/modules/utils";
-import type { LAYOUT_QUERY_RESULT } from "@/sanity/types";
 
 type FooterColumnData = NonNullable<NonNullable<LAYOUT_QUERY_RESULT>["footerColumns"]>[number];
 type FooterLinkData = NonNullable<FooterColumnData["links"]>[number];

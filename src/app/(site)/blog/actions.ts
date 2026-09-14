@@ -1,8 +1,8 @@
 "use server";
 
-import { sanityFetch } from "@/sanity/lib/live";
-import { POSTS_QUERY } from "@/sanity/lib/queries";
-import { POST_CARD_TAGS } from "@/sanity/lib/tags";
+import { sanityFetch } from "@/modules/sanity/lib/live";
+import { POSTS_QUERY } from "@/modules/sanity/lib/queries";
+import { POST_CARD_TAGS } from "@/modules/sanity/lib/tags";
 
 import { POSTS_PAGE_SIZE } from "./config";
 

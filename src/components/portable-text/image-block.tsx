@@ -1,8 +1,8 @@
 import { Image } from "next-sanity/image";
 
 import { CornerMarks } from "@/components/corner-marks";
-import { urlFor } from "@/sanity/lib/image";
-import type { POST_QUERY_RESULT } from "@/sanity/types";
+import { urlFor } from "@/modules/sanity/lib/image";
+import type { POST_QUERY_RESULT } from "@/modules/sanity/types";
 
 type Block = NonNullable<NonNullable<POST_QUERY_RESULT>["body"]>[number];
 type ImageValue = Extract<Block, { _type: "imageWithAlt" }>;

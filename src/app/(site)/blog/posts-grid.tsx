@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ReactNode, useEffect, useRef, useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
-import type { CATEGORIES_QUERY_RESULT, POSTS_QUERY_RESULT } from "@/sanity/types";
+import type { CATEGORIES_QUERY_RESULT, POSTS_QUERY_RESULT } from "@/modules/sanity/types";
 
 import { loadPosts } from "./actions";
 import { POSTS_PAGE_SIZE } from "./config";

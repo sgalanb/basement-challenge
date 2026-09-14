@@ -10,10 +10,10 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
-import { SANITY_API_VERSION, SANITY_DATASET, SANITY_PROJECT_ID } from "./src/sanity/env";
-import { resolve } from "./src/sanity/presentation/resolve";
-import { schema, singletonTypes } from "./src/sanity/schemaTypes";
-import { structure } from "./src/sanity/structure";
+import { SANITY_API_VERSION, SANITY_DATASET, SANITY_PROJECT_ID } from "./src/modules/sanity/env";
+import { resolve } from "./src/modules/sanity/presentation/resolve";
+import { schema, singletonTypes } from "./src/modules/sanity/schemaTypes";
+import { structure } from "./src/modules/sanity/structure";
 
 const singletonActions = new Set(["publish", "discardChanges", "restore"]);
 
@@ -21,6 +21,7 @@ export default defineConfig({
   basePath: "/cms",
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
+  title: "Website Studio",
   schema: {
     ...schema,
     // Hide singletons from the "new document" menu

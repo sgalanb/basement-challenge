@@ -38,3 +38,4 @@
 - Images load almost instantly with a LQIP (Low-Quality Image Placeholder) provided by Sanity while the full image is loading.
 - The category filters and "LOAD MORE" button are functional. Selected category is stored as a search param in the URL.
 - Each blog post page has a dynamic OpenGraph image generated at build time.
+- Sanity visual editing implemented with proper documents and locations mapping.

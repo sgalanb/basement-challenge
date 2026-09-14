@@ -1,4 +1,4 @@
-import type { Code } from "@/sanity/types";
+import type { Code } from "@/modules/sanity/types";
 
 export function CodeBlock({ value }: { value: Code }) {
   if (!value.code) return null;

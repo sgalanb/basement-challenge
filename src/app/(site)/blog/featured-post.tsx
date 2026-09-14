@@ -2,9 +2,9 @@ import { Image } from "next-sanity/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
+import { urlFor } from "@/modules/sanity/lib/image";
+import type { BLOG_PAGE_QUERY_RESULT } from "@/modules/sanity/types";
 import { formatDate } from "@/modules/utils";
-import { urlFor } from "@/sanity/lib/image";
-import type { BLOG_PAGE_QUERY_RESULT } from "@/sanity/types";
 
 type FeaturedPost = NonNullable<NonNullable<BLOG_PAGE_QUERY_RESULT>["featuredPost"]>;
 

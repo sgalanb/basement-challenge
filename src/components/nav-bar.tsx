@@ -11,8 +11,8 @@ import { Logo } from "@/components/logo";
 import { NewTabHint } from "@/components/new-tab-hint";
 import { Button } from "@/components/ui/button";
 import { TRANSITION } from "@/modules/motion";
+import type { LAYOUT_QUERY_RESULT } from "@/modules/sanity/types";
 import { isExternal } from "@/modules/utils";
-import type { LAYOUT_QUERY_RESULT } from "@/sanity/types";
 
 type NavLinkData = NonNullable<NonNullable<LAYOUT_QUERY_RESULT>["navLinks"]>[number];
 type NavCtaData = Omit<
