@@ -1,5 +1,6 @@
 import Footer from "@/components/footer";
 import NavBar from "@/components/nav-bar";
+import { PreviousPathnameTracker } from "@/components/previous-pathname";
 import { SkipLink } from "@/components/skip-link";
 import { sanityFetch } from "@/modules/sanity/lib/live";
 import { LAYOUT_QUERY } from "@/modules/sanity/lib/queries";
@@ -10,6 +11,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
 
   return (
     <>
+      <PreviousPathnameTracker />
       <SkipLink />
       <NavBar links={layout?.navLinks ?? []} ctas={layout?.navCtas ?? []} />
       {children}

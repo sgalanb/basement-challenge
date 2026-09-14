@@ -20,6 +20,7 @@ import { postTag } from "@/modules/sanity/lib/tags";
 import { ORGANIZATION_ID, SITE, absoluteUrl } from "@/modules/site";
 import { formatDate } from "@/modules/utils";
 
+import { BackLink } from "./back-link";
 import { getPost } from "./get-post";
 import { ScrollRow } from "./scroll-row";
 
@@ -100,13 +101,10 @@ export default async function PostPage({ params }: Props) {
       <article>
         <div className="mx-auto flex w-full max-w-343 flex-col">
           <div className="border-basement-grey border-b">
-            <Link
-              href="/blog"
-              className="typography-label hover:text-basement-white/60 inline-flex items-center gap-2 py-2 transition-colors"
-            >
+            <BackLink className="typography-label hover:text-basement-white/60 inline-flex items-center gap-2 py-2 transition-colors">
               <span aria-hidden="true">←</span>
               Go back
-            </Link>
+            </BackLink>
           </div>
 
           <header className="flex flex-col gap-12 pt-6 lg:gap-15 lg:pt-15">
