@@ -6,6 +6,7 @@ import { draftMode } from "next/headers";
 
 import "./globals.css";
 import { SanityLive } from "@/modules/sanity/lib/live";
+import { SITE_URL } from "@/modules/utils";
 
 const TITLE = "basement.studio | We make cool shit that performs.";
 const DESCRIPTION =
@@ -14,6 +15,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
+  robots: { index: false, follow: false }, // Not a real site, avoid indexing.
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
@@ -28,7 +30,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     siteName: "basement.studio",
     type: "website",
-    url: `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
+    url: SITE_URL,
   },
   twitter: {
     title: TITLE,

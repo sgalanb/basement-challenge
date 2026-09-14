@@ -27,6 +27,7 @@
 - Mono text style is labeled as "GEIST MONO REGULAR" but all intances use medium weight. Used medium to preserve visual fidelity.
 - Mobile typekit has a separate section at the bottom with the same 16px font styles in different weights as the desktop version, but they are never used on the pages. Omitted in code, easy to add later.
 - Button styles have no meaningful overlap so I hard-coded each variant.
+- Normalized spacing between page sections.
 - Posts featured images are optional.
 - Each post has an excerpt field that is used on the full post page as well as in the post card.
 - Each post has an intro field that is only used on the full post page positioned after the excerpt but before the post date + authors section.
@@ -37,5 +38,6 @@
 - Granular cache tags that invalidate the smallest possible amount of cached data while accurately reflecting content changes across the entire site.
 - Images load almost instantly with a LQIP (Low-Quality Image Placeholder) provided by Sanity while the full image is loading.
 - The category filters and "LOAD MORE" button are functional. Selected category is stored as a search param in the URL.
-- Each blog post page has a dynamic OpenGraph image generated at build time.
 - Sanity visual editing implemented with proper documents and locations mapping.
+- Every blog post has a dynamic OpenGraph image, statically generated at build time and regenerated on-demand when the post changes.
+- Sitemap is statically generated at build time and regenerated on-demand when posts are published, updated or deleted.

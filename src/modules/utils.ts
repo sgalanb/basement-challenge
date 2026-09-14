@@ -18,3 +18,7 @@ export function unique<T>(values: T[]) {
 export function isExternal(href: string, openInNewTab: boolean | null) {
   return Boolean(openInNewTab) || /^(https?:)?\/\//.test(href);
 }
+
+export const SITE_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";

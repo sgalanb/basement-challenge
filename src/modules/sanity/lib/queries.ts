@@ -101,6 +101,11 @@ export const POST_SLUGS_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current)] { "slug": slug.current }
 `);
 
+/** Every published post URL and when it last changed
+export const POST_SITEMAP_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current)] | order(date desc) { "slug": slug.current, _updatedAt }
+`);
+
 /**
  * A post page is assembled in three steps so every fetch can be tagged with exactly the documents
  * it depends on (Next.js tags are declared before a fetch runs).

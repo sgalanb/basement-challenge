@@ -163,6 +163,7 @@
 @layer base {
   * {
     @apply outline-ring/80;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground selection:bg-basement-orange selection:text-basement-black;

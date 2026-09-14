@@ -64,7 +64,7 @@ export function PostsGrid({
     if (slug) params.set(CATEGORY_PARAM, slug);
     else params.delete(CATEGORY_PARAM);
     const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
   }
 
   function loadMore() {
