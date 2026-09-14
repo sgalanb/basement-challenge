@@ -20,9 +20,18 @@ export default function Home() {
         {SITE.description} Based in {SITE.location.city}, {SITE.location.country}. This site hosts
         the studio blog: research, insights, and the science behind building brands and websites.
       </p>
-      <Button variant="primaryLight" nativeButton={false} render={<Link href="/blog" />}>
-        Check out the blog
-      </Button>
+      <div className="flex flex-col items-start gap-4">
+        <Button variant="primaryLight" nativeButton={false} render={<Link href="/blog" />}>
+          Go to the blog
+        </Button>
+        <Button
+          variant="primaryLight"
+          nativeButton={false}
+          render={<Link href="/cms" target="_blank" rel="noopener noreferrer" />}
+        >
+          Go to Sanity Studio
+        </Button>
+      </div>
     </main>
   );
 }
