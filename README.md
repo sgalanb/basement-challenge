@@ -22,7 +22,7 @@
 
 [^1]: Could be done with vanilla Base UI, but since this is an agency project I think adhering to shadcn patterns and conventions is the right call. Given they are pretty much industry standards by now, it makes future customization easier for the client.
 
-## Assumptions
+## Design Decisions and Assumptions
 
 - Mono text style is labeled as "GEIST MONO REGULAR" but all intances use medium weight. Used medium to preserve visual fidelity.
 - Mobile typekit has a separate section at the bottom with the same 16px font styles in different weights as the desktop version, but they are never used on the pages. Omitted in code, easy to add later.
@@ -30,7 +30,10 @@
 - Posts featured images are optional.
 - Each post has an excerpt field that is used on the full post page as well as in the post card.
 - Each post has an intro field that is only used on the full post page positioned after the excerpt but before the post date + authors section.
+- Change the category chip text color on the light post card variant to a slighly darker grey because the lack of contrast between `basement-light-grey` and `basement-white` made it almost unreadable.
 
-## Quirks and features
+## Quirks and Features
 
 - Granular cache tags that invalidate the smallest possible amount of cached data while accurately reflecting content changes across the entire site.
+- Images load almost instantly with a LQIP (Low-Quality Image Placeholder) provided by Sanity while the full image is loading.
+- The category filters and "LOAD MORE" button are functional. Selected category is stored as a search param in the URL.

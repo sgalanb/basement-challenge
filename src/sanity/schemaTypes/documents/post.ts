@@ -25,7 +25,7 @@ export const post = defineType({
       type: "text",
       rows: 3,
       description: "Shown on cards, the featured post, and as the opening line of the article.",
-      validation: (rule) => rule.required().max(220).warning("Keep it under 220 characters."),
+      validation: (rule) => rule.required().max(320).warning("Keep it under 320 characters."),
     }),
     defineField({
       name: "intro",

@@ -13,3 +13,8 @@ export function formatDate(date: string) {
 export function unique<T>(values: T[]) {
   return [...new Set(values)];
 }
+
+/** Absolute URLs and links flagged in the CMS open in a new tab. */
+export function isExternal(href: string, openInNewTab: boolean | null) {
+  return Boolean(openInNewTab) || /^(https?:)?\/\//.test(href);
+}

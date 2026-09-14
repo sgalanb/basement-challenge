@@ -9,6 +9,21 @@
   --color-basement-grey: #666666;
   --color-basement-light-grey: #c4c4c4;
   --color-basement-dark-grey: #2e2e2e;
+
+  /* Keep in sync with `motion.ts` for animations consistency */
+  --ease-basement: cubic-bezier(0.65, 0, 0.35, 1);
+  --transition-duration-fast: 150ms;
+  --transition-duration-normal: 250ms;
+  --default-transition-duration: var(--transition-duration-normal);
+  --default-transition-timing-function: var(--ease-basement);
+
+  /* Glass border shadows */
+  --shadow-glass-dark:
+    inset 0 0 2px rgba(255, 255, 255, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    0 3px 15px 0 rgba(18, 18, 18, 0.05);
+  --shadow-glass-light:
+    inset 0 0 2px rgba(255, 255, 255, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    0 3px 15px 0 rgba(18, 18, 18, 0.05);
 }
 
 @theme inline {
@@ -18,12 +33,6 @@
   --font-mono: var(--font-geist-mono);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
-  /* --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card); */
-  /* --color-border: var(--border);
-  --color-input: var(--input); */
   --color-ring: var(--ring);
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -38,15 +47,26 @@
 :root {
   --background: var(--color-basement-black);
   --foreground: var(--color-basement-white);
-  /* --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0); */
   --accent: var(--color-basement-orange);
   --accent-foreground: var(--color-basement-black);
-  /* --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0); */
   --ring: var(--color-basement-orange);
+}
+
+/* Monotone black noise */
+@utility bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.33 0.33 0.33 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Glass surfaces */
+@utility glass-dark {
+  background-color: --alpha(#3a3a3a / 25%);
+  box-shadow: var(--shadow-glass-dark);
+}
+
+@utility glass-light {
+  background-color: --alpha(#fff / 25%);
+  box-shadow: var(--shadow-glass-light);
 }
 
 @utility typography-large-headline {
@@ -87,16 +107,28 @@
 @utility typography-title-emphasized {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* 24 mobile and desktop */
   line-height: round(1.1em, 1px);
   letter-spacing: -0.03em;
 }
 
 @utility typography-body {
   font-family: var(--font-sans);
-  font-weight: 600;
+  font-weight: 400;
   font-size: 0.875rem; /* 14 mobile */
   line-height: round(1.3em, 1px);
+  letter-spacing: 0;
+  @variant lg {
+    font-size: 1rem; /* 16 */
+  }
+}
+
+@utility typography-body-medium {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem; /* 14 mobile */
+  line-height: round(1.3em, 1px);
+  letter-spacing: 0;
   @variant lg {
     font-size: 1rem; /* 16 */
   }
@@ -107,6 +139,7 @@
   font-weight: 600;
   font-size: 0.875rem; /* 14 mobile */
   line-height: round(1.3em, 1px);
+  letter-spacing: 0;
   @variant lg {
     font-size: 1rem; /* 16 */
   }
@@ -132,9 +165,25 @@
     @apply outline-ring/80;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground selection:bg-basement-orange selection:text-basement-black;
   }
   html {
     @apply font-sans;
+  }
+  /* Accessibility settings */
+  :focus-visible {
+    @apply outline-ring outline-2 outline-offset-2;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
   }
 }

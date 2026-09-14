@@ -5,6 +5,8 @@ import {
 import { stegaClean } from "next-sanity";
 import Link from "next/link";
 
+import { NewTabHint } from "@/components/new-tab-hint";
+
 import { CodeBlock } from "./code-block";
 import { ImageBlock } from "./image-block";
 import { QuoteBlock } from "./quote-block";
@@ -18,7 +20,7 @@ export const portableTextComponents: PortableTextComponents = {
   },
   block: {
     normal: ({ children }) => <p className="typography-body my-4">{children}</p>,
-    h2: ({ children }) => <h2 className="typography-title mt-12 mb-4">{children}</h2>,
+    h2: ({ children }) => <h2 className="typography-headline mt-12 mb-6">{children}</h2>,
     h3: ({ children }) => <h3 className="typography-title-emphasized mt-8 mb-3">{children}</h3>,
   },
   list: {
@@ -31,8 +33,9 @@ export const portableTextComponents: PortableTextComponents = {
   marks: {
     strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
     em: ({ children }) => <em>{children}</em>,
+    "strike-through": ({ children }) => <s>{children}</s>,
     code: ({ children }) => (
-      <code className="bg-basement-dark-grey rounded px-1.5 py-0.5 font-mono text-[0.9em]">
+      <code className="bg-basement-dark-grey/80 border-basement-grey/80 rounded border px-0.5 font-mono text-[0.9em]">
         {children}
       </code>
     ),
@@ -45,6 +48,7 @@ export const portableTextComponents: PortableTextComponents = {
         return (
           <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
             {children}
+            <NewTabHint />
           </a>
         );
       }

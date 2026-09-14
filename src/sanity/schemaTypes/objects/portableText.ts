@@ -40,6 +40,7 @@ export const simplePortableText = defineType({
         decorators: [
           { title: "Strong", value: "strong" },
           { title: "Emphasis", value: "em" },
+          { title: "Strikethrough", value: "strike-through" },
         ],
         annotations: [linkAnnotation],
       },
@@ -69,6 +70,7 @@ export const portableText = defineType({
           { title: "Strong", value: "strong" },
           { title: "Emphasis", value: "em" },
           { title: "Code", value: "code" },
+          { title: "Strikethrough", value: "strike-through" },
         ],
         annotations: [linkAnnotation],
       },
