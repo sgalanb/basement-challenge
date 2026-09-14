@@ -62,7 +62,7 @@ export function ScrollRow({
         )}
       </div>
 
-      <div className={cn("relementative", className)}>
+      <div className={cn("relative", className)}>
         <ul
           ref={ref}
           className="flex flex-col gap-4 lg:-m-1 lg:snap-x lg:scroll-px-1 lg:scrollbar-none lg:flex-row lg:overflow-x-auto lg:p-1 lg:after:w-px lg:after:shrink-0 lg:after:content-['']"
@@ -108,8 +108,8 @@ function Fade({ side, visible }: { side: "start" | "end"; visible: boolean }) {
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-y-0 hidden w-104 transition-opacity lg:block",
-        side === "start" ? "left-0" : "right-0",
+        "pointer-events-none absolute -inset-y-1 hidden w-104 transition-opacity lg:block",
+        side === "start" ? "-left-1" : "-right-1",
         visible ? "opacity-100" : "opacity-0",
       )}
       style={{
